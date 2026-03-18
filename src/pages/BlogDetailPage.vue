@@ -40,14 +40,14 @@ onMounted(() => {
 
 <template>
   <div class="blog-detail-page" v-if="post">
-    <header class="post-header glass-panel">
-      <div class="header-content">
-        <RouterLink to="/" class="back-link">
+    <article class="post-article glass-panel">
+      <header class="post-header">
+        <RouterLink to="/articles" class="back-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
-          Back to Posts
+          Back to Articles
         </RouterLink>
 
         <div class="post-meta">
@@ -60,6 +60,7 @@ onMounted(() => {
             </svg>
             {{ post.createdAt }}
           </span>
+          <span class="meta-divider">|</span>
           <span class="meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10" />
@@ -74,13 +75,9 @@ onMounted(() => {
         <div class="post-tags">
           <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
         </div>
-      </div>
-      <div class="corner-decoration top-left"></div>
-      <div class="corner-decoration top-right"></div>
-    </header>
+      </header>
 
-    <div class="content-layout">
-      <aside class="toc-panel glass-panel">
+      <div class="toc-section" v-if="tocItems.length > 0">
         <div class="toc-header">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="8" y1="6" x2="21" y2="6" />
@@ -102,87 +99,33 @@ onMounted(() => {
             {{ item.text }}
           </button>
         </nav>
-        <div class="corner-decoration bottom-left"></div>
-        <div class="corner-decoration bottom-right"></div>
-      </aside>
+      </div>
 
-      <article class="post-content glass-panel">
+      <div class="post-content">
         <div class="markdown-body" v-html="post.content"></div>
-        <div class="corner-decoration top-left"></div>
-        <div class="corner-decoration top-right"></div>
-        <div class="corner-decoration bottom-left"></div>
-        <div class="corner-decoration bottom-right"></div>
-      </article>
+      </div>
 
-      <aside class="info-panel glass-panel">
-        <div class="info-section">
-          <div class="info-header">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-            <span>AI_SUMMARY</span>
-          </div>
-          <div class="ai-badge">
+      <div class="ai-summary-section" v-if="post.aiSummary">
+        <div class="summary-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+          <span>AI_SUMMARY</span>
+          <span class="ai-badge">
             <span class="badge-dot"></span>
-            <span>GENERATED</span>
-          </div>
-          <p class="ai-summary" v-if="post.aiSummary">
-            {{ post.aiSummary }}
-          </p>
-          <p class="ai-summary" v-else>AI summary is being processed...</p>
+            GENERATED
+          </span>
         </div>
+        <p class="ai-summary-text">{{ post.aiSummary }}</p>
+      </div>
 
-        <div class="info-section">
-          <div class="info-header">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path
-                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
-              />
-              <line x1="7" y1="7" x2="7.01" y2="7" />
-            </svg>
-            <span>TAGS</span>
-          </div>
-          <div class="tag-list">
-            <span v-for="tag in post.tags" :key="tag" class="info-tag">{{ tag }}</span>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <div class="info-header">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            <span>METADATA</span>
-          </div>
-          <div class="metadata-list">
-            <div class="metadata-item">
-              <span class="meta-key">POST_ID:</span>
-              <span class="meta-value">{{ post.id }}</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-key">CREATED:</span>
-              <span class="meta-value">{{ post.createdAt }}</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-key">READ_TIME:</span>
-              <span class="meta-value">{{ post.readTime }} min</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-key">STATUS:</span>
-              <span class="meta-value status-online">PUBLISHED</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="corner-decoration top-left"></div>
-        <div class="corner-decoration top-right"></div>
-        <div class="corner-decoration bottom-left"></div>
-        <div class="corner-decoration bottom-right"></div>
-      </aside>
-    </div>
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
+    </article>
   </div>
 
   <div class="not-found" v-else>
@@ -197,18 +140,19 @@ onMounted(() => {
 
 <style scoped>
 .blog-detail-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-article {
+  padding: 32px;
   position: relative;
-  z-index: 1;
 }
 
 .post-header {
-  padding: 32px;
   margin-bottom: 32px;
-  position: relative;
-}
-
-.header-content {
-  max-width: 800px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .back-link {
@@ -216,7 +160,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--neon-cyan);
   text-decoration: none;
   margin-bottom: 20px;
@@ -224,25 +168,26 @@ onMounted(() => {
 }
 
 .back-link svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .back-link:hover {
   color: var(--neon-purple);
-  text-shadow: var(--glow-purple);
 }
 
 .post-meta {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--text-muted);
@@ -254,9 +199,14 @@ onMounted(() => {
   color: var(--neon-cyan-dim);
 }
 
+.meta-divider {
+  color: var(--neon-purple);
+  opacity: 0.5;
+}
+
 .post-title {
   font-family: var(--font-sans);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.3;
@@ -280,29 +230,19 @@ onMounted(() => {
   border-radius: 4px;
 }
 
-.content-layout {
-  display: grid;
-  grid-template-columns: 250px 1fr 280px;
-  gap: 24px;
-  position: relative;
-}
-
-.toc-panel {
-  position: sticky;
-  top: 100px;
-  height: fit-content;
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
+.toc-section {
+  margin-bottom: 32px;
   padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 }
 
 .toc-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-bottom: 16px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--border-color);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--neon-cyan);
@@ -354,13 +294,12 @@ onMounted(() => {
 }
 
 .post-content {
-  padding: 40px;
-  position: relative;
+  margin-bottom: 32px;
 }
 
 .markdown-body {
   font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.8;
   color: var(--text-primary);
 }
@@ -378,16 +317,16 @@ onMounted(() => {
 }
 
 .markdown-body :deep(h1) {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 .markdown-body :deep(h2) {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--neon-cyan);
 }
 
 .markdown-body :deep(h3) {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   border-bottom: none;
 }
 
@@ -397,7 +336,7 @@ onMounted(() => {
 
 .markdown-body :deep(code) {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.85em;
   padding: 2px 6px;
   background: rgba(0, 245, 255, 0.1);
   border: 1px solid rgba(0, 245, 255, 0.2);
@@ -407,7 +346,7 @@ onMounted(() => {
 
 .markdown-body :deep(pre) {
   margin: 1.5em 0;
-  padding: 20px;
+  padding: 16px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -421,7 +360,7 @@ onMounted(() => {
   top: 8px;
   right: 12px;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
   letter-spacing: 0.1em;
 }
@@ -456,33 +395,25 @@ onMounted(() => {
   font-weight: 600;
 }
 
-.info-panel {
-  position: sticky;
-  top: 100px;
-  height: fit-content;
+.ai-summary-section {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  background: rgba(0, 245, 255, 0.05);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 8px;
 }
 
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.info-header {
+.summary-header {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 12px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--neon-purple);
+  color: var(--neon-cyan);
   letter-spacing: 0.15em;
 }
 
-.info-header svg {
+.summary-header svg {
   width: 16px;
   height: 16px;
 }
@@ -492,13 +423,11 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--neon-cyan);
   background: rgba(0, 245, 255, 0.1);
   border: 1px solid rgba(0, 245, 255, 0.2);
   border-radius: 4px;
-  width: fit-content;
 }
 
 .badge-dot {
@@ -509,55 +438,11 @@ onMounted(() => {
   animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
-.ai-summary {
+.ai-summary-text {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.6;
   color: var(--text-secondary);
-  padding: 12px;
-  background: rgba(0, 245, 255, 0.05);
-  border-radius: 4px;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.info-tag {
-  padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--neon-purple);
-  background: rgba(185, 103, 255, 0.1);
-  border: 1px solid rgba(185, 103, 255, 0.2);
-  border-radius: 4px;
-}
-
-.metadata-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.metadata-item {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-}
-
-.meta-key {
-  color: var(--text-muted);
-}
-
-.meta-value {
-  color: var(--text-secondary);
-}
-
-.meta-value.status-online {
-  color: var(--neon-cyan);
 }
 
 .not-found {
@@ -574,7 +459,7 @@ onMounted(() => {
 
 .error-code {
   font-family: var(--font-sans);
-  font-size: 6rem;
+  font-size: 5rem;
   font-weight: 900;
   color: var(--neon-pink);
   text-shadow: var(--glow-pink);
@@ -584,43 +469,20 @@ onMounted(() => {
 
 .not-found-content h2 {
   font-family: var(--font-sans);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--text-primary);
   margin-bottom: 12px;
 }
 
 .not-found-content p {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   margin-bottom: 24px;
 }
 
-@media (max-width: 1200px) {
-  .content-layout {
-    grid-template-columns: 1fr 280px;
-  }
-
-  .toc-panel {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
-  .content-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .info-panel {
-    position: static;
-    order: -1;
-  }
-
-  .post-content {
-    padding: 24px;
-  }
-
-  .post-header {
+  .post-article {
     padding: 24px;
   }
 }

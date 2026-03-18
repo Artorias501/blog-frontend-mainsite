@@ -9,6 +9,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'AI Blog System' },
   },
   {
+    path: '/articles',
+    name: 'Articles',
+    component: () => import('@/pages/ArticlesPage.vue'),
+    meta: { title: 'Articles' },
+  },
+  {
     path: '/blog/:id',
     name: 'BlogDetail',
     component: () => import('@/pages/BlogDetailPage.vue'),

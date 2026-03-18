@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useBlogStore } from '@/stores/blog'
-import ParticleBackground from '@/components/ParticleBackground.vue'
-import BlogCard from '@/components/BlogCard.vue'
 
 const blogStore = useBlogStore()
 </script>
 
 <template>
   <div class="home-page">
-    <ParticleBackground />
-
-    <section class="hero">
+    <section class="hero-section glass-panel">
       <div class="hero-content">
         <div class="hero-badge">SYSTEM_ONLINE</div>
         <h1 class="hero-title">
@@ -43,7 +39,7 @@ const blogStore = useBlogStore()
           </div>
         </div>
         <div class="hero-actions">
-          <RouterLink to="/" class="glow-button cyan">
+          <RouterLink to="/articles" class="glow-button cyan">
             <svg
               class="btn-icon"
               viewBox="0 0 24 24"
@@ -51,11 +47,12 @@ const blogStore = useBlogStore()
               stroke="currentColor"
               stroke-width="2"
             >
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-              <polyline points="10 17 15 12 10 7" />
-              <line x1="15" y1="12" x2="3" y2="12" />
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            Enter System
+            View Articles
           </RouterLink>
           <RouterLink to="/architecture" class="glow-button purple">
             <svg
@@ -69,59 +66,68 @@ const blogStore = useBlogStore()
               <polyline points="2 17 12 22 22 17" />
               <polyline points="2 12 12 17 22 12" />
             </svg>
-            View Architecture
+            Architecture
           </RouterLink>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="visual-ring ring-1"></div>
-        <div class="visual-ring ring-2"></div>
-        <div class="visual-ring ring-3"></div>
-        <div class="visual-core">
-          <span class="core-text">AI</span>
-        </div>
-      </div>
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
     </section>
 
-    <section class="blog-section">
+    <section class="featured-section">
       <div class="section-header">
         <h2 class="section-title">
           <span class="title-decoration">&lt;</span>
-          LATEST_POSTS
+          FEATURED_POSTS
           <span class="title-decoration">/&gt;</span>
         </h2>
-        <p class="section-desc">Recent articles from the system database</p>
       </div>
-
-      <div class="blog-grid">
-        <BlogCard v-for="post in blogStore.posts" :key="post.id" :post="post" />
+      <div class="featured-grid">
+        <RouterLink
+          v-for="post in blogStore.recentPosts"
+          :key="post.id"
+          :to="`/blog/${post.id}`"
+          class="featured-card glass-panel"
+        >
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="meta-item">{{ post.createdAt }}</span>
+              <span class="meta-divider">|</span>
+              <span class="meta-item">{{ post.readTime }} min</span>
+            </div>
+            <h3 class="card-title">{{ post.title }}</h3>
+            <p class="card-summary">{{ post.summary }}</p>
+            <div class="card-tags">
+              <span v-for="tag in post.tags.slice(0, 2)" :key="tag" class="tag">{{ tag }}</span>
+            </div>
+          </div>
+          <div class="corner-decoration top-left"></div>
+          <div class="corner-decoration top-right"></div>
+          <div class="corner-decoration bottom-left"></div>
+          <div class="corner-decoration bottom-right"></div>
+        </RouterLink>
       </div>
     </section>
-
-    <div class="grid-lines">
-      <div class="grid-line" v-for="n in 6" :key="n"></div>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .home-page {
-  position: relative;
-  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.hero {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 0;
+.hero-section {
+  padding: 48px 40px;
   position: relative;
 }
 
 .hero-content {
   max-width: 600px;
-  z-index: 1;
 }
 
 .hero-badge {
@@ -140,7 +146,7 @@ const blogStore = useBlogStore()
 
 .hero-title {
   font-family: var(--font-sans);
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 20px;
@@ -188,7 +194,7 @@ const blogStore = useBlogStore()
 
 .hero-subtitle {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   letter-spacing: 0.1em;
   margin-bottom: 32px;
@@ -201,12 +207,13 @@ const blogStore = useBlogStore()
 .hero-stats {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 40px;
+  gap: 20px;
+  margin-bottom: 32px;
   padding: 16px 24px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  width: fit-content;
 }
 
 .stat-item {
@@ -218,21 +225,21 @@ const blogStore = useBlogStore()
 
 .stat-value {
   font-family: var(--font-sans);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--neon-cyan);
 }
 
 .stat-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   letter-spacing: 0.15em;
 }
 
 .stat-divider {
   width: 1px;
-  height: 40px;
+  height: 32px;
   background: var(--border-color);
 }
 
@@ -253,84 +260,24 @@ const blogStore = useBlogStore()
   height: 18px;
 }
 
-.hero-visual {
-  position: relative;
-  width: 300px;
-  height: 300px;
+.featured-section {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.visual-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid;
-  opacity: 0.3;
-}
-
-.ring-1 {
-  width: 100%;
-  height: 100%;
-  border-color: var(--neon-cyan);
-  animation: float 4s ease-in-out infinite;
-}
-
-.ring-2 {
-  width: 75%;
-  height: 75%;
-  border-color: var(--neon-purple);
-  animation: float 4s ease-in-out infinite reverse;
-  animation-delay: 1s;
-}
-
-.ring-3 {
-  width: 50%;
-  height: 50%;
-  border-color: var(--neon-pink);
-  animation: float 4s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-.visual-core {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-  border-radius: 50%;
-  box-shadow:
-    0 0 30px rgba(0, 245, 255, 0.5),
-    0 0 60px rgba(185, 103, 255, 0.3);
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.core-text {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--bg-primary);
-}
-
-.blog-section {
-  padding: 60px 0;
-  position: relative;
-  z-index: 1;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .section-header {
-  text-align: center;
-  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .section-title {
   font-family: var(--font-sans);
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.1em;
-  margin-bottom: 12px;
 }
 
 .title-decoration {
@@ -338,92 +285,103 @@ const blogStore = useBlogStore()
   opacity: 0.7;
 }
 
-.section-desc {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
+.featured-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
+.featured-card {
+  padding: 24px;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
-.grid-lines {
-  position: fixed;
+.featured-card:hover {
+  transform: translateX(4px);
+  border-color: var(--neon-cyan);
+}
+
+.featured-card:hover .card-glow {
+  opacity: 1;
+}
+
+.card-glow {
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.03;
-}
-
-.grid-line {
-  position: absolute;
-  width: 1px;
+  width: 3px;
   height: 100%;
-  background: var(--neon-cyan);
+  background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.grid-line:nth-child(1) {
-  left: 10%;
-}
-.grid-line:nth-child(2) {
-  left: 25%;
-}
-.grid-line:nth-child(3) {
-  left: 40%;
-}
-.grid-line:nth-child(4) {
-  left: 55%;
-}
-.grid-line:nth-child(5) {
-  left: 70%;
-}
-.grid-line:nth-child(6) {
-  left: 85%;
+.card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-@media (max-width: 1024px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hero-content {
-    margin-bottom: 40px;
-  }
-
-  .hero-stats {
-    justify-content: center;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-visual {
-    width: 200px;
-    height: 200px;
-  }
-
-  .visual-core {
-    width: 80px;
-    height: 80px;
-  }
-
-  .core-text {
-    font-size: 1.5rem;
-  }
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
-@media (max-width: 640px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
+.meta-divider {
+  color: var(--neon-purple);
+  opacity: 0.5;
+}
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.featured-card:hover .card-title {
+  color: var(--neon-cyan);
+}
+
+.card-summary {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--neon-purple);
+  background: rgba(185, 103, 255, 0.1);
+  border: 1px solid rgba(185, 103, 255, 0.2);
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 32px 24px;
   }
 
   .hero-stats {

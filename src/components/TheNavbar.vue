@@ -6,7 +6,8 @@ const mobileMenuOpen = ref(false)
 
 const navItems = [
   { path: '/', label: 'HOME', icon: '⌂' },
-  { path: '/architecture', label: 'ARCHITECTURE', icon: '◇' },
+  { path: '/articles', label: 'ARTICLES', icon: '◇' },
+  { path: '/architecture', label: 'ARCHITECTURE', icon: '◈' },
 ]
 
 function toggleMobileMenu() {

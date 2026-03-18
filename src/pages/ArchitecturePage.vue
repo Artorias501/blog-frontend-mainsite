@@ -123,13 +123,17 @@ function getPath(from: string, to: string) {
 
 <template>
   <div class="architecture-page">
-    <header class="page-header">
+    <header class="page-header glass-panel">
       <h1 class="page-title">
         <span class="title-decoration">&lt;</span>
         SYSTEM_ARCHITECTURE
         <span class="title-decoration">/&gt;</span>
       </h1>
-      <p class="page-subtitle">High-performance distributed blog platform with AI integration</p>
+      <p class="page-subtitle">High-performance distributed blog platform</p>
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
     </header>
 
     <section class="diagram-section glass-panel">
@@ -200,12 +204,7 @@ function getPath(from: string, to: string) {
             </g>
           </g>
         </svg>
-
-        <div class="data-flow-overlay">
-          <div class="flow-particle" v-for="n in 12" :key="n"></div>
-        </div>
       </div>
-
       <div class="corner-decoration top-left"></div>
       <div class="corner-decoration top-right"></div>
       <div class="corner-decoration bottom-left"></div>
@@ -303,28 +302,34 @@ function getPath(from: string, to: string) {
           </div>
         </div>
       </div>
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
     </section>
   </div>
 </template>
 
 <style scoped>
 .architecture-page {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .page-header {
+  padding: 24px;
   text-align: center;
-  margin-bottom: 40px;
+  position: relative;
 }
 
 .page-title {
   font-family: var(--font-sans);
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.1em;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .title-decoration {
@@ -334,14 +339,13 @@ function getPath(from: string, to: string) {
 
 .page-subtitle {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
 }
 
 .diagram-section {
-  padding: 40px;
-  margin-bottom: 32px;
+  padding: 24px;
   position: relative;
   overflow: hidden;
 }
@@ -349,7 +353,7 @@ function getPath(from: string, to: string) {
 .diagram-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -393,93 +397,12 @@ function getPath(from: string, to: string) {
   pointer-events: none;
 }
 
-.data-flow-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.flow-particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--neon-cyan);
-  border-radius: 50%;
-  opacity: 0.5;
-  animation: float 3s ease-in-out infinite;
-}
-
-.flow-particle:nth-child(1) {
-  top: 15%;
-  left: 50%;
-  animation-delay: 0s;
-}
-.flow-particle:nth-child(2) {
-  top: 35%;
-  left: 50%;
-  animation-delay: 0.5s;
-}
-.flow-particle:nth-child(3) {
-  top: 55%;
-  left: 30%;
-  animation-delay: 1s;
-}
-.flow-particle:nth-child(4) {
-  top: 55%;
-  left: 70%;
-  animation-delay: 1.5s;
-}
-.flow-particle:nth-child(5) {
-  top: 75%;
-  left: 20%;
-  animation-delay: 2s;
-}
-.flow-particle:nth-child(6) {
-  top: 85%;
-  left: 50%;
-  animation-delay: 2.5s;
-}
-.flow-particle:nth-child(7) {
-  top: 75%;
-  left: 80%;
-  animation-delay: 3s;
-}
-.flow-particle:nth-child(8) {
-  top: 35%;
-  left: 50%;
-  animation-delay: 3.5s;
-}
-.flow-particle:nth-child(9) {
-  top: 55%;
-  left: 30%;
-  animation-delay: 4s;
-}
-.flow-particle:nth-child(10) {
-  top: 55%;
-  left: 70%;
-  animation-delay: 4.5s;
-}
-.flow-particle:nth-child(11) {
-  top: 75%;
-  left: 50%;
-  animation-delay: 5s;
-}
-.flow-particle:nth-child(12) {
-  top: 55%;
-  left: 50%;
-  animation-delay: 5.5s;
-}
-
 .service-details {
-  margin-bottom: 32px;
+  margin: 0;
 }
 
 .detail-card {
-  padding: 24px;
+  padding: 20px;
   position: relative;
 }
 
@@ -487,14 +410,14 @@ function getPath(from: string, to: string) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
   border-bottom: 2px solid;
 }
 
 .detail-title {
   font-family: var(--font-sans);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -504,7 +427,7 @@ function getPath(from: string, to: string) {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--neon-cyan);
   letter-spacing: 0.1em;
 }
@@ -519,21 +442,21 @@ function getPath(from: string, to: string) {
 
 .detail-description {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .detail-tech {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .tech-title {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   letter-spacing: 0.15em;
 }
@@ -547,7 +470,7 @@ function getPath(from: string, to: string) {
 .tech-tag {
   padding: 6px 14px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--text-primary);
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid;
@@ -556,13 +479,12 @@ function getPath(from: string, to: string) {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .service-card {
-  padding: 20px;
+  padding: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -570,7 +492,7 @@ function getPath(from: string, to: string) {
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .service-card.active {
@@ -587,8 +509,8 @@ function getPath(from: string, to: string) {
 
 .card-title {
   font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
   padding-left: 12px;
@@ -596,10 +518,10 @@ function getPath(from: string, to: string) {
 
 .card-desc {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   line-height: 1.5;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .card-tech {
@@ -609,9 +531,9 @@ function getPath(from: string, to: string) {
 }
 
 .mini-tag {
-  padding: 4px 8px;
+  padding: 3px 8px;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.05);
   border-radius: 3px;
@@ -623,47 +545,48 @@ function getPath(from: string, to: string) {
 }
 
 .metrics-section {
-  padding: 32px;
+  padding: 20px;
+  position: relative;
 }
 
 .metrics-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--neon-purple);
   letter-spacing: 0.1em;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .metrics-title svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
 }
 
 .metric-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .metric-value {
   font-family: var(--font-sans);
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--neon-cyan);
 }
 
 .metric-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
   letter-spacing: 0.1em;
 }
@@ -679,12 +602,11 @@ function getPath(from: string, to: string) {
   height: 100%;
   background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
   border-radius: 2px;
-  transition: width 1s ease;
 }
 
 @media (max-width: 768px) {
   .diagram-section {
-    padding: 20px;
+    padding: 16px;
   }
 
   .services-grid {
