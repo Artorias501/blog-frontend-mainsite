@@ -44,3 +44,10 @@ PROGRESS.txt
 # Development docs and TDD summaries
 docs/
 tdd-summary/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
