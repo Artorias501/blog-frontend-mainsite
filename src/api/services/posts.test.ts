@@ -209,7 +209,7 @@ describe('Posts API Service', () => {
 
       const result = await getPostById(1)
 
-      expect(mockRequest).toHaveBeenCalledWith('GET', '/posts/1', {})
+      expect(mockRequest).toHaveBeenCalledWith('GET', '/posts/1')
       expect(result.data.id).toBe(1)
       expect(result.data.title).toBe('Test Post')
     })
@@ -229,7 +229,7 @@ describe('Posts API Service', () => {
 
       const result = await getPostById('123')
 
-      expect(mockRequest).toHaveBeenCalledWith('GET', '/posts/123', {})
+      expect(mockRequest).toHaveBeenCalledWith('GET', '/posts/123')
       expect(result.data.id).toBe(123)
     })
 
