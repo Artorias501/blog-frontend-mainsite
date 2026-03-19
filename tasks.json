@@ -131,7 +131,7 @@
         "e2e-manual": []
       },
       "skills": ["tdd-workflow", "testing-safe-protocol"],
-      "complete": false
+      "complete": true
     },
     {
       "task": "Update components to use new data structure",
