@@ -28,7 +28,7 @@ function formatDate(date: string) {
           <line x1="16" y1="17" x2="8" y2="17" />
           <polyline points="10 9 9 9 8 9" />
         </svg>
-        <span class="header-title">RECENT_POSTS</span>
+        <span class="header-title">最新文章</span>
       </div>
 
       <div class="posts-list">

@@ -43,7 +43,7 @@ const { id, title, summary, tags, createdAt, readTime } = props.post
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          {{ readTime }} min read
+          {{ readTime }} 分钟阅读
         </span>
       </div>
 
@@ -56,7 +56,7 @@ const { id, title, summary, tags, createdAt, readTime } = props.post
       </div>
 
       <RouterLink :to="`/blog/${id}`" class="read-more">
-        <span>READ_MORE</span>
+        <span>阅读更多</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="5" y1="12" x2="19" y2="12" />
           <polyline points="12 5 19 12 12 19" />

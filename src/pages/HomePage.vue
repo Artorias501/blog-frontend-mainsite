@@ -8,34 +8,34 @@ const blogStore = useBlogStore()
   <div class="home-page">
     <section class="hero-section glass-panel">
       <div class="hero-content">
-        <div class="hero-badge">SYSTEM_ONLINE</div>
+        <div class="hero-badge">System Online</div>
         <h1 class="hero-title">
           <span class="title-line">
-            <span class="glitch-text" data-text="AI BLOG">AI BLOG</span>
+            <span class="glitch-text" data-text="ARTORIAS">ARTORIAS</span>
           </span>
           <span class="title-line">
-            <span class="highlight">SYSTEM</span>
+            <span class="highlight">Blog</span>
           </span>
         </h1>
         <p class="hero-subtitle">
           <span class="subtitle-bracket">[</span>
-          High Performance · Distributed · AI Powered
+          高性能 · 分布式
           <span class="subtitle-bracket">]</span>
         </p>
         <div class="hero-stats">
           <div class="stat-item">
             <span class="stat-value">{{ blogStore.posts.length }}</span>
-            <span class="stat-label">POSTS</span>
+            <span class="stat-label">文章</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-value">99.9%</span>
-            <span class="stat-label">UPTIME</span>
+            <span class="stat-label">在线率</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-value">&lt;50ms</span>
-            <span class="stat-label">LATENCY</span>
+            <span class="stat-label">延迟</span>
           </div>
         </div>
         <div class="hero-actions">
@@ -52,7 +52,7 @@ const blogStore = useBlogStore()
               <line x1="16" y1="13" x2="8" y2="13" />
               <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            View Articles
+            查看文章
           </RouterLink>
           <RouterLink to="/architecture" class="glow-button purple">
             <svg
@@ -66,7 +66,7 @@ const blogStore = useBlogStore()
               <polyline points="2 17 12 22 22 17" />
               <polyline points="2 12 12 17 22 12" />
             </svg>
-            Architecture
+            架构
           </RouterLink>
         </div>
       </div>
@@ -80,7 +80,7 @@ const blogStore = useBlogStore()
       <div class="section-header">
         <h2 class="section-title">
           <span class="title-decoration">&lt;</span>
-          FEATURED_POSTS
+          精选文章
           <span class="title-decoration">/&gt;</span>
         </h2>
       </div>

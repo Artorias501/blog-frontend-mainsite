@@ -8,33 +8,32 @@ const currentYear = new Date().getFullYear()
       <div class="footer-section">
         <div class="footer-logo">
           <span class="logo-bracket">[</span>
-          <span class="logo-text">AI_BLOG</span>
+          <span class="logo-text">ARTORIAS'S BLOG</span>
           <span class="logo-bracket">]</span>
         </div>
-        <p class="footer-tagline">High Performance · Distributed · AI Powered</p>
+        <p class="footer-tagline">高性能 · 分布式</p>
       </div>
 
       <div class="footer-section">
-        <h4 class="footer-title">SYSTEM_INFO</h4>
+        <h4 class="footer-title">系统信息</h4>
         <div class="system-info">
           <span class="info-item">
-            <span class="info-label">STATUS:</span>
-            <span class="info-value status-online">ONLINE</span>
+            <span class="info-label">状态:</span>
+            <span class="info-value status-online">在线</span>
           </span>
           <span class="info-item">
-            <span class="info-label">VERSION:</span>
+            <span class="info-label">版本:</span>
             <span class="info-value">v1.0.0</span>
           </span>
         </div>
       </div>
 
       <div class="footer-section">
-        <h4 class="footer-title">TECH_STACK</h4>
+        <h4 class="footer-title">技术栈</h4>
         <div class="tech-badges">
           <span class="tech-badge">Vue 3</span>
           <span class="tech-badge">Go</span>
           <span class="tech-badge">Redis</span>
-          <span class="tech-badge">Kafka</span>
         </div>
       </div>
     </div>
@@ -42,7 +41,7 @@ const currentYear = new Date().getFullYear()
     <div class="footer-bottom">
       <div class="terminal-line">
         <span class="prompt">></span>
-        <span class="command">echo "© {{ currentYear }} AI Blog System"</span>
+        <span class="command">echo "© {{ currentYear }} ARTORIAS'S BLOG"</span>
       </div>
     </div>
 

@@ -5,9 +5,9 @@ import { RouterLink } from 'vue-router'
 const mobileMenuOpen = ref(false)
 
 const navItems = [
-  { path: '/', label: 'HOME', icon: '⌂' },
-  { path: '/articles', label: 'ARTICLES', icon: '◇' },
-  { path: '/architecture', label: 'ARCHITECTURE', icon: '◈' },
+  { path: '/', label: '首页', icon: '⌂' },
+  { path: '/articles', label: '文章', icon: '◇' },
+  { path: '/architecture', label: '架构', icon: '◈' },
 ]
 
 function toggleMobileMenu() {
@@ -24,7 +24,7 @@ function closeMobileMenu() {
     <div class="navbar-content">
       <RouterLink to="/" class="logo" @click="closeMobileMenu">
         <span class="logo-bracket">[</span>
-        <span class="logo-text">AI_BLOG</span>
+        <span class="logo-text">ARTORIAS'S BLOG</span>
         <span class="logo-bracket">]</span>
       </RouterLink>
 

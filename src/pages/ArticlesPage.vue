@@ -9,10 +9,10 @@ const blogStore = useBlogStore()
     <header class="page-header glass-panel">
       <h1 class="page-title">
         <span class="title-decoration">&lt;</span>
-        ALL_ARTICLES
+        所有文章
         <span class="title-decoration">/&gt;</span>
       </h1>
-      <p class="page-subtitle">Browse all posts in the system</p>
+      <p class="page-subtitle">浏览系统中的所有文章</p>
       <div class="corner-decoration top-left"></div>
       <div class="corner-decoration top-right"></div>
       <div class="corner-decoration bottom-left"></div>
@@ -45,7 +45,7 @@ const blogStore = useBlogStore()
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
-                {{ post.readTime }} min read
+                {{ post.readTime }} 分钟阅读
               </span>
             </div>
           </div>
@@ -55,7 +55,7 @@ const blogStore = useBlogStore()
               <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
             </div>
             <span class="read-more">
-              READ_MORE
+              阅读更多
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />

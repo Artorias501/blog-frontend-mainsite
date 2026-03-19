@@ -6,25 +6,25 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'Home',
     component: () => import('@/pages/HomePage.vue'),
-    meta: { title: 'AI Blog System' },
+    meta: { title: '首页' },
   },
   {
     path: '/articles',
     name: 'Articles',
     component: () => import('@/pages/ArticlesPage.vue'),
-    meta: { title: 'Articles' },
+    meta: { title: '文章' },
   },
   {
     path: '/blog/:id',
     name: 'BlogDetail',
     component: () => import('@/pages/BlogDetailPage.vue'),
-    meta: { title: 'Blog Post' },
+    meta: { title: '文章详情' },
   },
   {
     path: '/architecture',
     name: 'Architecture',
     component: () => import('@/pages/ArchitecturePage.vue'),
-    meta: { title: 'System Architecture' },
+    meta: { title: '系统架构' },
   },
 ]
 
@@ -37,7 +37,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  document.title = `${to.meta.title || 'AI Blog'} | AI Blog System`
+  document.title = `${to.meta.title || "Artorias's Blog"} | Artorias's Blog`
   next()
 })
 

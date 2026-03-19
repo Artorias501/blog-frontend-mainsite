@@ -126,10 +126,10 @@ function getPath(from: string, to: string) {
     <header class="page-header glass-panel">
       <h1 class="page-title">
         <span class="title-decoration">&lt;</span>
-        SYSTEM_ARCHITECTURE
+        系统架构
         <span class="title-decoration">/&gt;</span>
       </h1>
-      <p class="page-subtitle">High-performance distributed blog platform</p>
+      <p class="page-subtitle">高性能分布式博客平台</p>
       <div class="corner-decoration top-left"></div>
       <div class="corner-decoration top-right"></div>
       <div class="corner-decoration bottom-left"></div>
@@ -219,12 +219,12 @@ function getPath(from: string, to: string) {
           </h3>
           <span class="detail-status">
             <span class="status-dot"></span>
-            ONLINE
+            在线
           </span>
         </div>
         <p class="detail-description">{{ selectedService.description }}</p>
         <div class="detail-tech">
-          <h4 class="tech-title">TECH_STACK:</h4>
+          <h4 class="tech-title">技术栈:</h4>
           <div class="tech-tags">
             <span
               v-for="tech in selectedService.tech"
@@ -270,33 +270,33 @@ function getPath(from: string, to: string) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
         </svg>
-        SYSTEM_METRICS
+        系统指标
       </h3>
       <div class="metrics-grid">
         <div class="metric-item">
           <div class="metric-value">10K+</div>
-          <div class="metric-label">REQUESTS/SEC</div>
+          <div class="metric-label">请求/秒</div>
           <div class="metric-bar">
             <div class="bar-fill" style="width: 85%"></div>
           </div>
         </div>
         <div class="metric-item">
           <div class="metric-value">&lt;50ms</div>
-          <div class="metric-label">AVG LATENCY</div>
+          <div class="metric-label">平均延迟</div>
           <div class="metric-bar">
             <div class="bar-fill" style="width: 95%"></div>
           </div>
         </div>
         <div class="metric-item">
           <div class="metric-value">99.9%</div>
-          <div class="metric-label">UPTIME</div>
+          <div class="metric-label">在线率</div>
           <div class="metric-bar">
             <div class="bar-fill" style="width: 99%"></div>
           </div>
         </div>
         <div class="metric-item">
           <div class="metric-value">95%</div>
-          <div class="metric-label">CACHE HIT RATE</div>
+          <div class="metric-label">缓存命中率</div>
           <div class="metric-bar">
             <div class="bar-fill" style="width: 95%"></div>
           </div>
