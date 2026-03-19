@@ -1,0 +1,8 @@
+# Backend Service Configuration
+# This file defines connection settings for backend services.
+
+services:
+  blog-service:
+    host: 'localhost'
+    port: 8080
+    base_url: 'http://localhost:8080'
