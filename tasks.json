@@ -49,7 +49,7 @@
         "e2e-manual": []
       },
       "skills": ["tdd-workflow", "testing-safe-protocol"],
-      "complete": false
+      "complete": true
     },
     {
       "task": "Implement posts API service",

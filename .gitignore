@@ -40,3 +40,7 @@ __screenshots__/
 
 # Task progress logs
 PROGRESS.txt
+
+# Development docs and TDD summaries
+docs/
+tdd-summary/
