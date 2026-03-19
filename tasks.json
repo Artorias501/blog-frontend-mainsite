@@ -1,0 +1,201 @@
+{
+  "tasks": [
+    {
+      "task": "Add config.yaml for backend service configuration",
+      "description": "Create config.yaml in root directory to configure blog-service backend IP and port with extensible structure for future services.",
+      "steps": [
+        { "step": 1, "description": "Create config.yaml with services.blog-service configuration" },
+        { "step": 2, "description": "Add TypeScript type definition for config schema" }
+      ],
+      "acceptance-criteria": "config.yaml exists in root directory with blog-service configuration containing host, port, and base_url fields. Config structure supports adding multiple services in the future.",
+      "test-plan": {
+        "unit": [
+          "config.yaml file exists at project root",
+          "config.yaml contains valid YAML syntax parseable by yaml parser",
+          "config.yaml has services.blog-service.host, port, base_url fields defined"
+        ],
+        "integration": [],
+        "e2e-manual": []
+      },
+      "skills": [],
+      "complete": false
+    },
+    {
+      "task": "Create API client infrastructure",
+      "description": "Set up API client layer with request wrapper, response types, and error handling for backend communication.",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Create src/api/types.ts with API response and error type definitions"
+        },
+        {
+          "step": 2,
+          "description": "Create src/api/client.ts with fetch wrapper and error handling"
+        },
+        {
+          "step": 3,
+          "description": "Create src/api/config.ts to load and export service base URLs from config.yaml"
+        }
+      ],
+      "acceptance-criteria": "src/api/ directory exists with types.ts defining ApiResponse, PaginatedResponse, and ApiError interfaces. client.ts exports request function with GET/POST/PUT/DELETE methods. All API calls use backend naming convention (snake_case).",
+      "test-plan": {
+        "unit": [
+          "ApiResponse interface correctly deserializes mock JSON response with code, message, data fields",
+          "PaginatedResponse interface correctly handles items, total, page, page_size, total_page fields",
+          "client.ts request function correctly constructs URL with base URL prefix",
+          "client.ts throws ApiError with correct code and message on non-zero response code"
+        ],
+        "integration": [],
+        "e2e-manual": []
+      },
+      "skills": ["tdd-workflow", "testing-safe-protocol"],
+      "complete": false
+    },
+    {
+      "task": "Implement posts API service",
+      "description": "Create posts API service module with methods to fetch post list and individual post details.",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Create src/api/services/posts.ts with Post and Tag type definitions"
+        },
+        {
+          "step": 2,
+          "description": "Implement getPosts function with pagination and filtering parameters"
+        },
+        { "step": 3, "description": "Implement getPostById function to fetch single post" },
+        { "step": 4, "description": "Implement searchPosts function with keyword parameter" }
+      ],
+      "acceptance-criteria": "src/api/services/posts.ts exports Post interface with id, title, content, summary, tags, created_at, updated_at, published_at fields. getPosts, getPostById, and searchPosts functions correctly call backend endpoints and return typed responses.",
+      "test-plan": {
+        "unit": [
+          "Post interface accepts mock API response with snake_case fields",
+          "getPosts correctly constructs query string with page, size, sort_by, order, tag_id parameters",
+          "getPostById correctly encodes UUID in URL path",
+          "searchPosts correctly encodes keyword query parameter"
+        ],
+        "integration": [
+          "getPosts returns real data from backend GET /api/v1/posts endpoint",
+          "getPostById returns real data from backend GET /api/v1/posts/:id endpoint"
+        ],
+        "e2e-manual": []
+      },
+      "skills": ["tdd-workflow", "testing-safe-protocol"],
+      "complete": false
+    },
+    {
+      "task": "Implement tags API service",
+      "description": "Create tags API service module with methods to fetch tag list and individual tag details.",
+      "steps": [
+        { "step": 1, "description": "Create src/api/services/tags.ts with Tag type definition" },
+        { "step": 2, "description": "Implement getTags function with pagination parameters" },
+        { "step": 3, "description": "Implement getTagById function to fetch single tag" },
+        { "step": 4, "description": "Implement searchTags function with keyword parameter" }
+      ],
+      "acceptance-criteria": "src/api/services/tags.ts exports Tag interface with id, name, created_at fields. getTags, getTagById, and searchTags functions correctly call backend endpoints and return typed responses.",
+      "test-plan": {
+        "unit": [
+          "Tag interface accepts mock API response with id, name, created_at fields",
+          "getTags correctly constructs query string with page, size, sort_by, order parameters",
+          "getTagById correctly encodes UUID in URL path"
+        ],
+        "integration": ["getTags returns real data from backend GET /api/v1/tags endpoint"],
+        "e2e-manual": []
+      },
+      "skills": ["tdd-workflow", "testing-safe-protocol"],
+      "complete": false
+    },
+    {
+      "task": "Refactor blog store to use API client",
+      "description": "Replace hardcoded test data in blog store with API calls, maintaining reactive state management.",
+      "steps": [
+        { "step": 1, "description": "Remove hardcoded posts array from blog store" },
+        { "step": 2, "description": "Add loading and error state refs" },
+        { "step": 3, "description": "Implement fetchPosts action using posts API service" },
+        { "step": 4, "description": "Implement fetchPostById action using posts API service" },
+        { "step": 5, "description": "Update recentPosts computed to use fetched data" }
+      ],
+      "acceptance-criteria": "blog.ts store no longer contains hardcoded test data. Store exports posts ref, loading ref, error ref, fetchPosts action, and fetchPostById action. All data uses backend snake_case naming convention.",
+      "test-plan": {
+        "unit": [
+          "store posts ref initializes as empty array",
+          "store loading ref initializes as false",
+          "store error ref initializes as null",
+          "fetchPosts action sets loading to true during fetch and false after completion"
+        ],
+        "integration": [
+          "fetchPosts populates posts ref with real data from backend API",
+          "fetchPostById correctly retrieves single post from backend API",
+          "recentPosts computed returns first 3 items from fetched posts"
+        ],
+        "e2e-manual": []
+      },
+      "skills": ["tdd-workflow", "testing-safe-protocol"],
+      "complete": false
+    },
+    {
+      "task": "Update components to use new data structure",
+      "description": "Update HomePage, ArticlesPage, and BlogDetailPage components to work with backend snake_case field names and async data loading.",
+      "steps": [
+        {
+          "step": 1,
+          "description": "Update HomePage to call fetchPosts on mount and handle loading state"
+        },
+        {
+          "step": 2,
+          "description": "Update HomePage template to use created_at instead of createdAt"
+        },
+        {
+          "step": 3,
+          "description": "Update ArticlesPage to call fetchPosts and handle loading state"
+        },
+        { "step": 4, "description": "Update ArticlesPage template to use created_at field" },
+        {
+          "step": 5,
+          "description": "Update BlogDetailPage to call fetchPostById and handle loading/error states"
+        },
+        { "step": 6, "description": "Update BlogDetailPage template to use snake_case field names" }
+      ],
+      "acceptance-criteria": "HomePage displays posts fetched from backend with loading indicator. ArticlesPage shows all posts from backend. BlogDetailPage shows individual post with proper error handling for non-existent posts. All components use snake_case field names (created_at, read_time removed as backend does not provide it).",
+      "test-plan": {
+        "unit": [
+          "HomePage renders loading state when store.loading is true",
+          "HomePage renders post cards when store.posts has data",
+          "BlogDetailPage renders 404 state when post is null after fetch completes"
+        ],
+        "integration": [
+          "HomePage displays real post titles from backend API",
+          "ArticlesPage displays real post list from backend API",
+          "BlogDetailPage displays real post content from backend API"
+        ],
+        "e2e-manual": [
+          "Visual: post cards display correctly with real data on home page",
+          "Visual: blog detail page renders markdown content properly",
+          "Visual: loading states appear during data fetch",
+          "Visual: 404 page appears for non-existent post IDs"
+        ]
+      },
+      "skills": ["tdd-workflow", "testing-safe-protocol"],
+      "complete": false
+    },
+    {
+      "task": "Install yaml parsing dependency",
+      "description": "Add js-yaml package for parsing config.yaml file in the application.",
+      "steps": [
+        { "step": 1, "description": "Install js-yaml and its type definitions" },
+        { "step": 2, "description": "Configure Vite to handle yaml file imports" }
+      ],
+      "acceptance-criteria": "js-yaml package installed and available for import. Vite config updated to support importing .yaml files. TypeScript types for js-yaml installed.",
+      "test-plan": {
+        "unit": [
+          "js-yaml package exists in package.json dependencies",
+          "import statement for yaml file does not cause TypeScript error"
+        ],
+        "integration": [],
+        "e2e-manual": []
+      },
+      "skills": ["installing-dependencies"],
+      "complete": false
+    }
+  ]
+}
