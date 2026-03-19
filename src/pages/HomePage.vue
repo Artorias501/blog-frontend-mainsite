@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useBlogStore } from '@/stores/blog'
 
 const blogStore = useBlogStore()
+
+// Fetch posts on mount
+onMounted(() => {
+  blogStore.fetchPosts()
+})
 </script>
 
 <template>
   <div class="home-page">
-    <section class="hero-section glass-panel">
+    <!-- Loading indicator -->
+    <div v-if="blogStore.loading" class="loading-container">
+      <div class="loading-indicator glass-panel">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">加载中...</span>
+      </div>
+    </div>
+
+    <section v-else class="hero-section glass-panel">
       <div class="hero-content">
         <div class="hero-badge">System Online</div>
         <h1 class="hero-title">
@@ -94,14 +108,14 @@ const blogStore = useBlogStore()
           <div class="card-glow"></div>
           <div class="card-content">
             <div class="card-meta">
-              <span class="meta-item">{{ post.createdAt }}</span>
-              <span class="meta-divider">|</span>
-              <span class="meta-item">{{ post.readTime }} min</span>
+              <span class="meta-item">{{ post.created_at }}</span>
             </div>
             <h3 class="card-title">{{ post.title }}</h3>
             <p class="card-summary">{{ post.summary }}</p>
             <div class="card-tags">
-              <span v-for="tag in post.tags.slice(0, 2)" :key="tag" class="tag">{{ tag }}</span>
+              <span v-for="tag in post.tags.slice(0, 2)" :key="tag.id" class="tag">{{
+                tag.name
+              }}</span>
             </div>
           </div>
           <div class="corner-decoration top-left"></div>
@@ -119,6 +133,42 @@ const blogStore = useBlogStore()
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-cyan);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.1em;
 }
 
 .hero-section {

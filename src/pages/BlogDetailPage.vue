@@ -1,25 +1,68 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBlogStore } from '@/stores/blog'
+import type { Post } from '@/api/services/posts'
 
 const route = useRoute()
 const blogStore = useBlogStore()
 
-const post = computed(() => {
-  const id = parseInt(route.params.id as string)
-  return blogStore.getPostById(id)
-})
+// Local state for the fetched post
+const post = ref<Post | null>(null)
+const loading = ref(true)
+const error = ref(false)
 
-onMounted(() => {
-  if (!post.value) return
-  document.title = `${post.value.title} | Artorias's Blog`
-})
+// Fetch post on mount and when route changes
+async function fetchPost() {
+  const id = route.params.id as string
+  if (!id) return
+
+  loading.value = true
+  error.value = false
+
+  try {
+    const fetchedPost = await blogStore.fetchPostById(id)
+    if (fetchedPost) {
+      post.value = fetchedPost
+      document.title = `${fetchedPost.title} | Artorias's Blog`
+    } else {
+      error.value = true
+    }
+  } catch {
+    error.value = true
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchPost)
+
+// Watch for route changes
+watch(() => route.params.id, fetchPost)
 </script>
 
 <template>
-  <div class="blog-detail-page" v-if="post">
-    <article class="post-article glass-panel">
+  <div class="blog-detail-page">
+    <!-- Loading indicator -->
+    <div v-if="loading" class="loading-container">
+      <div class="loading-indicator glass-panel">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">加载中...</span>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div v-else-if="error" class="not-found">
+      <div class="not-found-content glass-panel">
+        <div class="error-code">404</div>
+        <h2>文章未找到</h2>
+        <p>请求的文章不存在。</p>
+        <RouterLink to="/" class="glow-button cyan">返回首页</RouterLink>
+      </div>
+    </div>
+
+    <!-- Post content -->
+    <article v-else-if="post" class="post-article glass-panel">
       <header class="post-header">
         <div class="post-meta">
           <span class="meta-item">
@@ -29,22 +72,14 @@ onMounted(() => {
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
-            {{ post.createdAt }}
-          </span>
-          <span class="meta-divider">|</span>
-          <span class="meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            {{ post.readTime }} 分钟阅读
+            {{ post.created_at }}
           </span>
         </div>
 
         <h1 class="post-title">{{ post.title }}</h1>
 
         <div class="post-tags">
-          <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+          <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
         </div>
       </header>
 
@@ -52,7 +87,7 @@ onMounted(() => {
         <div class="markdown-body" v-html="post.content"></div>
       </div>
 
-      <div class="ai-summary-section" v-if="post.aiSummary">
+      <div class="ai-summary-section" v-if="post.ai_summary">
         <div class="summary-header">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
@@ -65,7 +100,7 @@ onMounted(() => {
             已生成
           </span>
         </div>
-        <p class="ai-summary-text">{{ post.aiSummary }}</p>
+        <p class="ai-summary-text">{{ post.ai_summary }}</p>
       </div>
 
       <div class="corner-decoration top-left"></div>
@@ -74,21 +109,48 @@ onMounted(() => {
       <div class="corner-decoration bottom-right"></div>
     </article>
   </div>
-
-  <div class="not-found" v-else>
-    <div class="not-found-content glass-panel">
-      <div class="error-code">404</div>
-      <h2>文章未找到</h2>
-      <p>请求的文章不存在。</p>
-      <RouterLink to="/" class="glow-button cyan">返回首页</RouterLink>
-    </div>
-  </div>
 </template>
 
 <style scoped>
 .blog-detail-page {
   display: flex;
   flex-direction: column;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-cyan);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.1em;
 }
 
 .post-article {

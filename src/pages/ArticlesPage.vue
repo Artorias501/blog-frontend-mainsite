@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useBlogStore } from '@/stores/blog'
 
 const blogStore = useBlogStore()
+
+// Fetch posts on mount
+onMounted(() => {
+  blogStore.fetchPosts()
+})
 </script>
 
 <template>
@@ -19,7 +25,15 @@ const blogStore = useBlogStore()
       <div class="corner-decoration bottom-right"></div>
     </header>
 
-    <div class="articles-list">
+    <!-- Loading indicator -->
+    <div v-if="blogStore.loading" class="loading-container">
+      <div class="loading-indicator glass-panel">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">加载中...</span>
+      </div>
+    </div>
+
+    <div v-else class="articles-list">
       <RouterLink
         v-for="post in blogStore.posts"
         :key="post.id"
@@ -38,21 +52,14 @@ const blogStore = useBlogStore()
                   <line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                {{ post.createdAt }}
-              </span>
-              <span class="meta-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-                {{ post.readTime }} 分钟阅读
+                {{ post.created_at }}
               </span>
             </div>
           </div>
           <p class="card-summary">{{ post.summary }}</p>
           <div class="card-footer">
             <div class="card-tags">
-              <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+              <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>
             </div>
             <span class="read-more">
               阅读更多
@@ -77,6 +84,42 @@ const blogStore = useBlogStore()
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-cyan);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.1em;
 }
 
 .page-header {

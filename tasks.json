@@ -176,7 +176,7 @@
         ]
       },
       "skills": ["tdd-workflow", "testing-safe-protocol"],
-      "complete": false
+      "complete": true
     },
     {
       "task": "Install yaml parsing dependency",

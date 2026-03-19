@@ -38,6 +38,8 @@ export interface Post {
   updated_at: string
   /** ISO 8601 timestamp when the post was published */
   published_at: string
+  /** AI-generated summary of the post (optional) */
+  ai_summary?: string
 }
 
 /**
