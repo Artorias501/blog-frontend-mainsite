@@ -103,7 +103,7 @@
         "e2e-manual": []
       },
       "skills": ["tdd-workflow", "testing-safe-protocol"],
-      "complete": false
+      "complete": true
     },
     {
       "task": "Refactor blog store to use API client",
