@@ -27,6 +27,7 @@ export interface GetTagsParams {
   limit?: number
   /** Offset in the result set */
   offset?: number
+  [key: string]: unknown
 }
 
 /**
@@ -37,6 +38,7 @@ export interface SearchTagsParams {
   limit?: number
   /** Offset in the result set */
   offset?: number
+  [key: string]: unknown
 }
 
 /**
@@ -45,7 +47,13 @@ export interface SearchTagsParams {
  * @returns Paginated response with tags data
  */
 export async function getTags(params?: GetTagsParams): Promise<PaginatedResponse<Tag>> {
-  const response = await request<PaginatedResponse<Tag>>('GET', '/tags', { params })
+  const response = await request<{
+    items: Tag[]
+    total: number
+    page: number
+    page_size: number
+    total_page: number
+  }>('GET', '/tags', { params })
   return response.data
 }
 
@@ -69,7 +77,13 @@ export async function searchTags(
   keyword: string,
   params?: SearchTagsParams,
 ): Promise<PaginatedResponse<Tag>> {
-  const response = await request<PaginatedResponse<Tag>>('GET', '/tags/search', {
+  const response = await request<{
+    items: Tag[]
+    total: number
+    page: number
+    page_size: number
+    total_page: number
+  }>('GET', '/tags/search', {
     params: { keyword, ...params },
   })
   return response.data

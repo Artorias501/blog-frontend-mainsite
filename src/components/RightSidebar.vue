@@ -41,7 +41,7 @@ function formatDate(date: string) {
           <div class="post-indicator"></div>
           <div class="post-content">
             <h4 class="post-title">{{ post.title }}</h4>
-            <span class="post-date">{{ formatDate(post.createdAt) }}</span>
+            <span class="post-date">{{ formatDate(post.created_at) }}</span>
           </div>
         </RouterLink>
       </div>

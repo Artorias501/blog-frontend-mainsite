@@ -14,13 +14,13 @@ const currentPostId = computed(() => {
 
 const currentPost = computed(() => {
   if (!currentPostId.value) return null
-  return blogStore.getPostById(currentPostId.value)
+  return blogStore.posts.find((p) => p.id === currentPostId.value) || null
 })
 
 const tocItems = computed(() => {
   if (!currentPost.value?.content) return []
   const headings = currentPost.value.content.match(/^#{1,3}\s.+$/gm) || []
-  return headings.map((h) => {
+  return headings.map((h: string) => {
     const level = (h.match(/^#+/) || [''])[0].length
     const text = h.replace(/^#+\s/, '')
     const id = text.toLowerCase().replace(/\s+/g, '-')

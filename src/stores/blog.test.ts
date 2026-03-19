@@ -115,7 +115,7 @@ describe('Blog Store', () => {
         resolvePromise = resolve
       })
 
-      mockGetPosts.mockReturnValueOnce(pendingPromise as Promise<ReturnType<typeof getPosts>>)
+      mockGetPosts.mockReturnValueOnce(pendingPromise as ReturnType<typeof getPosts>)
 
       const store = useBlogStore()
       const fetchPromise = store.fetchPosts()
@@ -210,7 +210,7 @@ describe('Blog Store', () => {
         resolvePromise = resolve
       })
 
-      mockGetPostById.mockReturnValueOnce(pendingPromise as Promise<ReturnType<typeof getPostById>>)
+      mockGetPostById.mockReturnValueOnce(pendingPromise as ReturnType<typeof getPostById>)
 
       const store = useBlogStore()
       const fetchPromise = store.fetchPostById(1)

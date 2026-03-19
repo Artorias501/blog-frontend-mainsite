@@ -16,5 +16,5 @@ export type {
 export { request, ApiError } from './client'
 
 // Configuration
-export { getBaseUrl, SERVICE_URLS, DEFAULT_SERVICE } from './config'
+export { getBaseUrl, DEFAULT_SERVICE } from './config'
 export type { ServiceName } from './config'

@@ -60,13 +60,17 @@ function toSnakeCase<T>(obj: T): T {
 
 /**
  * Build a URL with query parameters.
- * @param baseUrl - The base URL
- * @param path - The API path
+ * @param baseUrl - The base URL (e.g., 'http://localhost:8080/api/v1')
+ * @param path - The API path (e.g., '/posts')
  * @param params - Query parameters (will be converted to snake_case)
  * @returns The full URL with query string
  */
 function buildUrl(baseUrl: string, path: string, params?: Record<string, unknown>): string {
-  const url = new URL(path, baseUrl)
+  // Normalize: remove trailing slash from baseUrl, ensure path starts with /
+  const normalizedBase = baseUrl.replace(/\/$/, '')
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const fullUrl = `${normalizedBase}${normalizedPath}`
+  const url = new URL(fullUrl)
 
   if (params) {
     const snakeParams = toSnakeCase(params)

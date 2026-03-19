@@ -52,6 +52,7 @@ export interface GetPostsParams {
   offset?: number
   /** Filter by tag name */
   tag?: string
+  [key: string]: unknown
 }
 
 /**
@@ -62,6 +63,7 @@ export interface SearchPostsParams {
   limit?: number
   /** Offset in the result set */
   offset?: number
+  [key: string]: unknown
 }
 
 /**
@@ -70,7 +72,13 @@ export interface SearchPostsParams {
  * @returns Paginated response with posts data
  */
 export async function getPosts(params?: GetPostsParams): Promise<PaginatedResponse<Post>> {
-  const response = await request<PaginatedResponse<Post>>('GET', '/posts', { params })
+  const response = await request<{
+    items: Post[]
+    total: number
+    page: number
+    page_size: number
+    total_page: number
+  }>('GET', '/posts', { params })
   return response.data
 }
 
@@ -94,7 +102,13 @@ export async function searchPosts(
   keyword: string,
   params?: SearchPostsParams,
 ): Promise<PaginatedResponse<Post>> {
-  const response = await request<PaginatedResponse<Post>>('GET', '/posts/search', {
+  const response = await request<{
+    items: Post[]
+    total: number
+    page: number
+    page_size: number
+    total_page: number
+  }>('GET', '/posts/search', {
     params: { keyword, ...params },
   })
   return response.data

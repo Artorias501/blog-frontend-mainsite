@@ -15,17 +15,20 @@ export interface ApiResponse<T> {
 /**
  * Wrapper for paginated list responses.
  * Includes metadata for pagination controls.
- * @template T - The type of items in the data array
+ * Matches backend API response format.
+ * @template T - The type of items in the items array
  */
 export interface PaginatedResponse<T> {
   /** Array of items for the current page */
-  data: T[]
+  items: T[]
   /** Total number of items across all pages */
-  total_count: number
-  /** Current offset in the result set */
-  offset: number
-  /** Maximum number of items per page */
-  limit: number
+  total: number
+  /** Current page number (1-indexed) */
+  page: number
+  /** Number of items per page */
+  page_size: number
+  /** Total number of pages */
+  total_page: number
 }
 
 /**

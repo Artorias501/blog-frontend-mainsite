@@ -28,7 +28,7 @@ export const useBlogStore = defineStore('blog', () => {
 
     try {
       const response = await getPosts(params)
-      posts.value = response.data
+      posts.value = response.items
     } catch (err) {
       error.value = err as ApiError
     } finally {
